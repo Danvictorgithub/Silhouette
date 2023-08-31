@@ -4,7 +4,7 @@ import logger from 'morgan';
 import helmet from 'helmet';
 import cors from 'cors';
 import routes from "./routes/routes";
-import prisma from "./configs/prisma";
+
 dotenv.config();
 
 const app:Express = express();
@@ -20,4 +20,6 @@ app.use("/api", routes);
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
-})
+});
+
+
