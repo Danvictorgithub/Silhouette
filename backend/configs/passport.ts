@@ -6,13 +6,11 @@ import bcrypt from "bcryptjs";
 const User = prisma.user;
 
 passport.use(new LocalStrategy.Strategy(async (username,password,cb) => {
-    console.log("this passed 1")
     const user = await User.findFirst({where:{username:username}});
     if (user === null) {
         return cb(null,false, {message:"User not found"});
     }
     else {
-        console.log("this passed 2")
         bcrypt.compare(password,user.password,(err,result) => {
             if (err) {
                 return cb(err,false, {message:"Error comparing passwords"});
@@ -32,7 +30,7 @@ const opts = {
     secretOrKey: process.env.SECRET_KEY
 }
 passport.use(new Strategy(opts,async (jwt_payload,cb) => {
-    const user = await User.findFirst({where: {username:jwt_payload.user}});
+    const user = await User.findFirst({where: {username:jwt_payload.username}});
     if (user === null) {
         return cb(null,false, {message:"User not found"});
     }
