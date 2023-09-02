@@ -6,15 +6,16 @@ import {Result, ValidationError, body, validationResult} from "express-validator
 import bcrypt from "bcryptjs";
 import passport from "passport";
 import jwt from "jsonwebtoken";
-const User = prisma.user;
+import { User } from "@prisma/client";
+const Users = prisma.user;
 
 export async function index(req:Request, res:Response) {
-    return await res.json(await User.findMany());   
+    return await res.json(await Users.findMany({select:{username:true}}));   
 }
 
 export async function show(req:Request, res:Response) {
     const {id} = req.params;
-    const user = await User.findUnique({where:{id:Number(id)}});
+    const user:User|null = await Users.findUnique({where:{id:Number(id)}});
     if (user === null) {
         return res.status(404).json({message:"User not found"});
     }
@@ -32,7 +33,7 @@ export const create = [
             return res.status(400).json({message:errors.array()});
         }
         const {username,password} = req.body;
-        if (await User.findFirst({where:{username:username}}) !== null) {
+        if (await Users.findFirst({where:{username:username}}) !== null) {
             return res.status(400).json({message:"Username already exists"});
         }
         else {
@@ -41,7 +42,7 @@ export const create = [
                 return res.status(500).json({message:"Error hashing password"});
               }  
               else {
-                const user = await User.create({data:{username:username,password:hashedPassword}});
+                const user = await Users.create({data:{username:username,password:hashedPassword}});
                 return res.status(201).json(user);
               }
             });
