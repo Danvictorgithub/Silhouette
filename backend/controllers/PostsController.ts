@@ -11,6 +11,7 @@ export interface TokenInterface {
         password: string,
         createdAt: string,
         updatedAt: string,
+        profileImg: string,
     };
   }
 const Posts = prisma.post

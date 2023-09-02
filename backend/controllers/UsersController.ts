@@ -8,7 +8,15 @@ import passport from "passport";
 import jwt from "jsonwebtoken";
 import { User } from "@prisma/client";
 const Users = prisma.user;
-
+export interface TokenInterface {
+    user: {
+        id: number,
+        password: string,
+        createdAt: string,
+        updatedAt: string,
+        profileImg: string,
+    };
+  }
 export async function index(req:Request, res:Response) {
     return await res.json(await Users.findMany({select:{username:true}}));   
 }
@@ -70,3 +78,17 @@ export async function login(req:Request,res:Response) {
         });
     })(req,res);
 };
+
+export const edit = [
+    body('username').trim().isLength({min:3,max:20}).withMessage("Username must be between 3 and 20 characters"),
+    body("password").trim().isLength({min:8,max:32}).withMessage("Password must be between 8 and 32 characters"),
+    async (req:Request,res:Response) => {
+        const token = req.headers.authorization!.split(" ")[1];
+        jwt.verify(token,process.env.SECRET_KEY!,async (err,decoded) => {
+            const userObj:TokenInterface = decoded as TokenInterface;
+            const {id} = userObj.user;
+            await Users.update({where:{id:id},data:{username:req.body.username,password:req.body.password}});
+            return res.status(200).json({message:"User updated"});
+        });
+    }
+]
