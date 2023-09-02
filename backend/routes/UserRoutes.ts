@@ -7,5 +7,5 @@ router.get("/",index);
 router.get("/:id",show);
 router.post("/create",create);
 router.post("/login",login);
-router.put("/edit",edit);
+router.put("/edit",passport.authenticate('jwt',{session:false}),edit);
 export default router;
