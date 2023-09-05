@@ -7,7 +7,16 @@ import bcrypt from "bcryptjs";
 import passport from "passport";
 import jwt from "jsonwebtoken";
 import { User } from "@prisma/client";
+import supabase from "../configs/supabase-storage";
+import formatDateForFileName from "../helper/formatDateForFileName";
 const Users = prisma.user;
+
+declare module 'multer' {
+    interface File {
+        buffer: Buffer;
+    }
+}
+
 export interface TokenInterface {
     user: {
         id: number,
@@ -83,12 +92,33 @@ export const edit = [
     body('username').trim().isLength({min:3,max:20}).withMessage("Username must be between 3 and 20 characters"),
     body("password").trim().isLength({min:8,max:32}).withMessage("Password must be between 8 and 32 characters"),
     async (req:Request,res:Response) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({message:errors.array()});
+        }
+        const imgFlag = (req.file !== undefined) ? true : false;
         const token = req.headers.authorization!.split(" ")[1];
         jwt.verify(token,process.env.SECRET_KEY!,async (err,decoded) => {
             const userObj:TokenInterface = decoded as TokenInterface;
             const {id} = userObj.user;
-            await Users.update({where:{id:id},data:{username:req.body.username,password:req.body.password}});
-            return res.status(200).json({message:"User updated"});
+            if (imgFlag) {
+                const uploadResult = await supabase.storage.from('UserStorage').upload(`public/${formatDateForFileName(new Date())}.${req.file!.originalname.split('.')[1]}`,req.file!.buffer);
+                if (uploadResult.error) {
+                    return res.status(400).json({message:uploadResult.error.message});
+                }
+                else {
+                    const imgUrl = await supabase.storage.from("UserStorage").getPublicUrl(uploadResult.data.path);
+                    await Users.update({where:{id:id},data:{
+                        username:req.body.username,
+                        password:req.body.password,
+                        profileImg:imgUrl.data.publicUrl}}); 
+                    return res.status(200).json({message:"User updated"});
+                }
+            }
+            else {
+                await Users.update({where:{id:id},data:{username:req.body.username,password:req.body.password}});
+                return res.status(200).json({message:"User updated"});
+            }
         });
     }
 ]

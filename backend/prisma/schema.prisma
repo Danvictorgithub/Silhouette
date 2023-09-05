@@ -16,7 +16,7 @@ model User {
   password String @db.VarChar(255)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  profileImg String @db.VarChar(255)
+  profileImg String @db.VarChar(255) @default("")
   posts Post[]
 }
 

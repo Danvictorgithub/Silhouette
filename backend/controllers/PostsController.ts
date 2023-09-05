@@ -5,6 +5,7 @@ import prisma from "../configs/prisma";
 import {Result, ValidationError, body, validationResult} from "express-validator";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { Post } from "@prisma/client";
+
 export interface TokenInterface {
     user: {
         id: number,

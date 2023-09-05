@@ -11,6 +11,7 @@ function App() {
     <h1 className=''>
       {data.message}
     </h1>
+    <img src="https://rvuojwvsivfhmjauwyby.supabase.co/storage/v1/object/public/UserStorage/public/2023-09-05_09-21-05.png" alt="" />
     </>
   )
 }
