@@ -4,14 +4,26 @@ function App() {
   const [count, setCount] = useState(0)
   const [data, setData] = useState({message:""});
   useEffect( () => {
-    axios.get("http://localhost:2345/api").then((res) => {setData({message:res.data.message});})
   },[]);
   return (
     <>
-    <h1 className=''>
-      {data.message}
-    </h1>
-    <img src="https://rvuojwvsivfhmjauwyby.supabase.co/storage/v1/object/public/UserStorage/public/2023-09-05_09-21-05.png" alt="" />
+      <div className='container flex justify-between items-center px-8 h-12 bg-cyan-500 drop-shadow'>
+        <div>
+          <img src="/" alt="" />
+          <h1 className="font-black">Silhouette</h1>
+        </div>
+        <div>
+          <ul className='container flex gap-4 font-medium'>
+            <li>Login</li>
+            <li>Signup</li>
+            <li>
+            <span className="material-symbols-outlined">dark_mode</span>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    
     </>
   )
 }
