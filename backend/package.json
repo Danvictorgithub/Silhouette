@@ -27,7 +27,8 @@
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
     "pg": "^8.11.3",
-    "pg-hstore": "^2.3.4"
+    "pg-hstore": "^2.3.4",
+    "react-router": "^6.15.0"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.3",
