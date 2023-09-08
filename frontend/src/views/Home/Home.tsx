@@ -2,7 +2,7 @@ export default function Home() {
     return (
         <>
             <div className="flex-1 font-sans bg-zinc-800 flex justify-center items-center flex-col">
-                <h1 className="p-4 font- font-black text-white text-5xl text-center">Silhouette<br/>Lifestyle</h1>
+                <h1 className="p-4 font-black text-white text-5xl text-center">Silhouette<br/>Lifestyle</h1>
                 <div className="flex justify-between shrink-0 h-[550px] w-[1000px] bg-neutral-200">
                     <div className="border-[25px] border-neutral-700 border-r-0 h-full w-full p-12 bg-[url('paperTexture.jpg')]">
                         <div className=" flex justify-start items-center p-2">

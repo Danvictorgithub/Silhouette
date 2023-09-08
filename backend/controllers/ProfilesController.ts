@@ -44,7 +44,6 @@ export const create = [
         });
     }
 ];
-
 export const edit = [
     body('title').trim().isLength({min:8,max:48}).withMessage('Profile Title must be between 8 and 48 characters'),
     body('motto').trim().isLength({min:8,max:48}).withMessage('Profile Motto must be between 8 and 48 characters'),
@@ -62,5 +61,4 @@ export const edit = [
             return res.status(200).json({message:"Profile updated successfully"});
         });
     }
-    
 ];

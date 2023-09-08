@@ -5,7 +5,7 @@ export default function Header() {
         <div className='flex justify-between items-center px-8 h-12 bg-white drop-shadow-sm'>
             <div>
                 <img src="/" alt="" />
-                <h1 className="font-black text-gray-800">Silhouette</h1>  
+                <h1 className="font-black font-serif text-2xl text-gray-800">Silhouette</h1>  
             </div>
             <div>
                 <ul className='flex gap-4 font-medium text-gray-800'>
