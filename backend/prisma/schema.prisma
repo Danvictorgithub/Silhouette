@@ -18,8 +18,16 @@ model User {
   updatedAt DateTime @updatedAt
   profileImg String @db.VarChar(255) @default("")
   posts Post[]
+  profile Profile?
 }
-
+model Profile {
+  id Int @id @default(autoincrement())
+  title String @db.VarChar(255)
+  motto String @db.VarChar(255)
+  content String @db.VarChar(255)
+  userId Int @unique
+  user User @relation(fields: [userId], references: [id])
+}
 model Post {
   id Int @id @default(autoincrement())
   createdAt DateTime @default(now())

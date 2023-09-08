@@ -99,6 +99,9 @@ export const edit = [
         const imgFlag = (req.file !== undefined) ? true : false;
         const token = req.headers.authorization!.split(" ")[1];
         jwt.verify(token,process.env.SECRET_KEY!,async (err,decoded) => {
+            if (err) {
+                res.status(500).json({message:err.message});
+            }
             const userObj:TokenInterface = decoded as TokenInterface;
             const {id} = userObj.user;
             if (imgFlag) {
